@@ -1,20 +1,31 @@
 package com.unisul.utils;
 
 public class CircularLinkedList<T> implements LinkedList<T> {
-    private Node<T> head;
+    private Node head;
+
+    private Iterator<T> iterator;
+
+    public Iterator<T> iterator() {
+        if (iterator != null) {
+            return iterator;
+        } else {
+            iterator = new Iterator<T>(head);
+            return iterator;
+        }
+    }
 
     @Override
     public void add(T t) {
-        Node<T> node = new Node<T>(t);
+        Node node = new Node(t);
         if (isEmpty()) {
             head = node;
 
             node.previous = node;
             node.next = node;
         } else {
-            Node<T> last = last(head);
+            Node last = last(head);
 
-            Node<T> next = last.next;
+            Node next = last.next;
 
             node.next = next;
             next.previous = node;
@@ -35,7 +46,7 @@ public class CircularLinkedList<T> implements LinkedList<T> {
         if (head == head.next) return 1;
 
 
-        Node<T> current = head;
+        Node current = head;
         int count = 1;
 
         while(current.next != head) {
@@ -46,15 +57,15 @@ public class CircularLinkedList<T> implements LinkedList<T> {
         return count;
     }
 
-    private Node<T> last(Node<T> node) {
+    private Node last(Node node) {
         return head.previous;
     }
 
     @Override
     public void put(T t, int index) {
-        Node<T> newNode = new Node<T>(t);
+        Node newNode = new Node(t);
         if (index == 0) {
-            Node<T> previous = head.previous;
+            Node previous = head.previous;
 
             previous.next = newNode;
             newNode.previous = previous;
@@ -64,7 +75,7 @@ public class CircularLinkedList<T> implements LinkedList<T> {
 
             head = newNode;
         } else {
-            Node<T> current = getNodeByIndex(index-1);
+            Node current = getNodeByIndex(index-1);
             // TODO non-reference to previous is not breaking any tests
             newNode.next = current.next;
             current.next = newNode;
@@ -74,17 +85,17 @@ public class CircularLinkedList<T> implements LinkedList<T> {
     @Override
     public void remove(int index) {
         if (index == 0) {
-            Node<T> newHead = head.next;
-            Node<T> previous = head.previous;
+            Node newHead = head.next;
+            Node previous = head.previous;
 
             newHead.previous = previous;
             previous.next = newHead;
 
             head = newHead;
         } else {
-            Node<T> left = getNodeByIndex(index - 1);
-            Node<T> middle = left.next;
-            Node<T> right = middle.next;
+            Node left = getNodeByIndex(index - 1);
+            Node middle = left.next;
+            Node right = middle.next;
             left.next = right;
 
             if (right != null)
@@ -92,8 +103,8 @@ public class CircularLinkedList<T> implements LinkedList<T> {
         }
     }
 
-    private Node<T> getNodeByIndex(int index) {
-        Node<T> current = head;
+    private Node getNodeByIndex(int index) {
+        Node current = head;
         for (int i=0; i<index; i++)
             current = current.next;
         return current;
@@ -127,7 +138,7 @@ public class CircularLinkedList<T> implements LinkedList<T> {
     @Override
     public int indexOf(T t) {
         int size = size();
-        Node<T> current = head;
+        Node current = head;
 
         for(int i = 0; i<size; i++) {
             if (t.equals(current.value)) {
@@ -143,12 +154,12 @@ public class CircularLinkedList<T> implements LinkedList<T> {
         return ! isEmpty();
     }
 
-    private class Node<U> {
-        U value;
-        Node<U> previous;
-        Node<U> next;
+    class Node {
+        T value;
+        Node previous;
+        Node next;
 
-        Node(U value) {
+        Node(T value) {
             this.value = value;
             previous = null;
             next = null;

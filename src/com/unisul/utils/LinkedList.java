@@ -10,4 +10,5 @@ public interface LinkedList<T> {
     public int indexOf(T t);
     public int size();
     public boolean isEmpty();
+    public Iterator<T> iterator();
 }

@@ -179,4 +179,52 @@ class CircularLinkedListTest {
         assertEquals(4, sut.get(2));
         assertEquals(7, sut.get(3));
     }
+
+    @Test
+    public void testSimpleIteratorNext() {
+        sut.add(5);
+        sut.add(3);
+
+        assertEquals(sut.iterator().current(), 5);
+        assertEquals(sut.iterator().next(), 3);
+        assertEquals(sut.iterator().current(), 3);
+    }
+
+    @Test
+    public void testIteratorCircularNext() {
+        sut.add(5);
+        sut.add(3);
+
+        assertEquals(sut.iterator().current(), 5);
+        assertEquals(sut.iterator().next(), 3);
+        assertEquals(sut.iterator().current(), 3);
+        assertEquals(sut.iterator().current(), 3);
+        assertEquals(sut.iterator().next(), 5);
+        assertEquals(sut.iterator().current(), 5);
+    }
+
+    @Test
+    public void testNextAndPrevious() {
+        sut.add(5);
+        sut.add(3);
+        sut.add(7);
+
+        assertEquals(sut.iterator().current(), 5);
+        assertEquals(sut.iterator().next(), 3);
+        assertEquals(sut.iterator().current(), 3);
+        assertEquals(sut.iterator().previous(), 5);
+        assertEquals(sut.iterator().current(), 5);
+    }
+
+    @Test
+    public void testCircularPrevious() {
+        sut.add(5);
+        sut.add(3);
+        sut.add(7);
+
+        assertEquals(sut.iterator().current(), 5);
+        assertEquals(sut.iterator().previous(), 7);
+        assertEquals(sut.iterator().current(), 7);
+        assertEquals(sut.iterator().previous(), 3);
+    }
 }
