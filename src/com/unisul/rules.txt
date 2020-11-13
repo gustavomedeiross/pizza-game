@@ -1,0 +1,4 @@
+* doubly circular linked list pro tabuleiro
+* circular linked list para os jogadores
+* linkedlist para os ingredientes pegos pelos jogadores
+* stack para as fichas (cartas de sorte ou azar)
