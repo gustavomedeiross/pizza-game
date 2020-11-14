@@ -6,12 +6,12 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 // TODO refactor + create more tests
-class CircularLinkedListTest {
-    private CircularLinkedList<Integer> sut;
+class LinkedListTest {
+    private LinkedListImpl<Integer> sut;
 
     @BeforeEach
     protected void setUp() {
-        sut = new CircularLinkedList<Integer>();
+        sut = new LinkedListImpl<Integer>();
     }
 
     @Test
@@ -179,66 +179,23 @@ class CircularLinkedListTest {
         assertEquals(4, sut.get(2));
         assertEquals(7, sut.get(3));
     }
-
     @Test
-    public void testSimpleIteratorNext() {
+    public void testIteratorNext() {
         sut.add(5);
         sut.add(3);
 
         assertEquals(sut.iterator().current(), 5);
         assertEquals(sut.iterator().next(), 3);
         assertEquals(sut.iterator().current(), 3);
-    }
 
-    @Test
-    public void testIteratorCircularNext() {
-        sut.add(5);
-        sut.add(3);
+        sut.add(10);
+        sut.add(9);
 
-        assertEquals(sut.iterator().current(), 5);
-        assertEquals(sut.iterator().next(), 3);
         assertEquals(sut.iterator().current(), 3);
-        assertEquals(sut.iterator().current(), 3);
-        assertEquals(sut.iterator().next(), 5);
-        assertEquals(sut.iterator().current(), 5);
-    }
-
-    @Test
-    public void testNextAndPrevious() {
-        sut.add(5);
-        sut.add(3);
-        sut.add(7);
-
-        assertEquals(sut.iterator().current(), 5);
-        assertEquals(sut.iterator().next(), 3);
-        assertEquals(sut.iterator().current(), 3);
-        assertEquals(sut.iterator().previous(), 5);
-        assertEquals(sut.iterator().current(), 5);
-    }
-
-    @Test
-    public void testCircularPrevious() {
-        sut.add(5);
-        sut.add(3);
-        sut.add(7);
-
-        assertEquals(sut.iterator().current(), 5);
-        assertEquals(sut.iterator().previous(), 7);
-        assertEquals(sut.iterator().current(), 7);
-        assertEquals(sut.iterator().previous(), 3);
-    }
-
-    @Test
-    public void testNewIterator() {
-        sut.add(5);
-        sut.add(3);
-        sut.add(7);
-
-        assertEquals(sut.iterator().current(), 5);
-        assertEquals(sut.iterator().next(), 3);
-        assertEquals(sut.newIterator().current(), 5);
-        assertEquals(sut.iterator().next(), 7);
-        assertEquals(sut.newIterator().current(), 5);
-        assertEquals(sut.newIterator().next(), 3);
+        assertEquals(sut.iterator().next(), 10);
+        assertEquals(sut.iterator().current(), 10);
+        assertEquals(sut.iterator().next(), 9);
+        assertEquals(sut.iterator().current(), 9);
     }
 }
+

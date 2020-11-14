@@ -1,110 +1,51 @@
 package com.unisul.utils;
 
-public class CircularLinkedList<T> implements LinkedList<T> {
+public class LinkedListImpl<T> implements LinkedList<T> {
     private Node head;
 
-    private Iterator iterator;
+    private LinkedListImpl.Iterator iterator;
 
     public Iterator iterator() {
         if (iterator != null) {
             return iterator;
         } else {
-            iterator = newIterator();
+            iterator = new LinkedListImpl.Iterator(head);
             return iterator;
         }
     }
 
-    public Iterator newIterator() {
-        return new Iterator(head);
-    }
 
     @Override
     public void add(T t) {
         Node node = new Node(t);
         if (isEmpty()) {
             head = node;
-
-            node.previous = node;
-            node.next = node;
         } else {
-            Node last = last(head);
-
-            Node next = last.next;
-
-            node.next = next;
-            next.previous = node;
-
-            node.previous = last;
-            last.next = node;
+            last(head).next = node;
         }
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return size() <= 0;
-    }
-
-    @Override
-    public int size() {
-        if (head == null) return 0;
-        if (head == head.next) return 1;
-
-
-        Node current = head;
-        int count = 1;
-
-        while(current.next != head) {
-            count++;
-            current = current.next;
-        }
-
-        return count;
-    }
-
-    private Node last(Node node) {
-        return head.previous;
     }
 
     @Override
     public void put(T t, int index) {
         Node newNode = new Node(t);
+
         if (index == 0) {
-            Node previous = head.previous;
-
-            previous.next = newNode;
-            newNode.previous = previous;
-
             newNode.next = head;
-            head.previous = newNode;
-
             head = newNode;
         } else {
-            Node left = getNodeByIndex(index-1);
-            Node right = left.next;
-            newNode.next = right;
-            right.previous = newNode;
-            left.next = newNode;
+            Node current = getNodeByIndex(index-1);
+            newNode.next = current.next;
+            current.next = newNode;
         }
     }
 
     @Override
     public void remove(int index) {
         if (index == 0) {
-            Node newHead = head.next;
-            Node previous = head.previous;
-
-            newHead.previous = previous;
-            previous.next = newHead;
-
-            head = newHead;
+            head = head.next;
         } else {
-            Node left = getNodeByIndex(index - 1);
-            Node middle = left.next;
-            Node right = middle.next;
-            left.next = right;
-
-            if (right != null)
-                right.previous = left;
+            Node node = getNodeByIndex(index - 1);
+            node.next = node.next.next;
         }
     }
 
@@ -131,6 +72,10 @@ public class CircularLinkedList<T> implements LinkedList<T> {
         return null;
     }
 
+    private Node last(Node node) {
+        return node.next != null ? last(node.next) : node;
+    }
+
     @Override
     public T get(int index) {
         if (index+1 > size()) {
@@ -155,26 +100,41 @@ public class CircularLinkedList<T> implements LinkedList<T> {
         return -1;
     }
 
+    @Override
+    public int size() {
+        return size(head);
+    }
+
+    private int size(Node node)  {
+        if (node != null) {
+            return 1 + size(node.next);
+        }
+        return 0;
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return size() <= 0;
+    }
+
     private boolean isNotEmpty()  {
         return ! isEmpty();
     }
 
-    class Node {
+    private class Node {
         T value;
-        Node previous;
         Node next;
 
         Node(T value) {
             this.value = value;
-            previous = null;
             next = null;
         }
     }
 
     public class Iterator {
-        private CircularLinkedList<T>.Node currentNode;
+        private LinkedListImpl<T>.Node currentNode;
 
-        Iterator(CircularLinkedList<T>.Node current) {
+        Iterator(LinkedListImpl<T>.Node current) {
             currentNode = current;
         }
 
@@ -186,10 +146,6 @@ public class CircularLinkedList<T> implements LinkedList<T> {
             currentNode = currentNode.next;
             return currentNode.value;
         }
-
-        public T previous() {
-            currentNode = currentNode.previous;
-            return currentNode.value;
-        }
     }
 }
+
