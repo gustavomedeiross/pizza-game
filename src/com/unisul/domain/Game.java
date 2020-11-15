@@ -11,11 +11,13 @@ public class Game {
     }
 
     private CircularLinkedList<Player> players;
+    private LuckyOrUnluckyDeck deck;
     private Dice dice;
 
     public Game(CircularLinkedList<Player> players, Dice dice) {
         this.players = players;
         this.dice = dice;
+        this.deck = new LuckyOrUnluckyDeck();
 
         Board board = new Board();
 
@@ -54,8 +56,29 @@ public class Game {
                         System.out.print("Pizza do jogador: " + currentPlayer.pizza.getFlavor() + " -> ");
                         System.out.println("Ingrediente encontrado:" + position.getIngredient());
                         currentPlayer.pizza.ingredients.remove(pizzaIngredientIndex);
+                    } else {
+                        System.out.print("Pizza do jogador: " + currentPlayer.pizza.getFlavor() + " -> ");
+                        System.out.println("Ingrediente encontrado nao bate:" + position.getIngredient());
                     }
 
+                    break;
+                }
+
+               case SORTE_OU_AZAR: {
+                   // get card and checks what to do with it
+                   switch (this.deck.getCard()) {
+                       case LOSE_AN_INGREDIENT: {
+                       }
+                   }
+
+                   System.out.print("Pizza do jogador: " + currentPlayer.pizza.getFlavor() + " -> ");
+                   System.out.println("sorte ou azar");
+                   break;
+                }
+
+                case PERDE_TUDO: {
+                    System.out.print("Pizza do jogador: " + currentPlayer.pizza.getFlavor() + " -> ");
+                    System.out.println("perde tudo :(");
                     break;
                 }
             }
