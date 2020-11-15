@@ -10,54 +10,41 @@ public class Board {
     }
 
     public Board() {
-        positions.add(Position.PERDE_TUDO);
-        positions.add(Position.CEBOLA);
-        positions.add(Position.SORTE_OU_AZAR);
-        positions.add(Position.CALABRESA);
-        positions.add(Position.QUEIJO);
-        positions.add(Position.SORTE_OU_AZAR);
-        positions.add(Position.SORTE_OU_AZAR);
-        positions.add(Position.TOMATE);
-        positions.add(Position.OVOS);
-        positions.add(Position.AZEITONA);
-        positions.add(Position.SORTE_OU_AZAR);
-        positions.add(Position.SORTE_OU_AZAR);
-        positions.add(Position.MILHO);
-        positions.add(Position.AZEITONA);
-        positions.add(Position.SORTE_OU_AZAR);
-        positions.add(Position.PRESUNTO);
-        positions.add(Position.TOMATE);
-        positions.add(Position.MILHO);
-        positions.add(Position.SORTE_OU_AZAR);
-        positions.add(Position.SORTE_OU_AZAR);
-        positions.add(Position.BROCOLIS);
-        positions.add(Position.SORTE_OU_AZAR);
-        positions.add(Position.OVOS);
-        positions.add(Position.CEBOLA);
-        positions.add(Position.SORTE_OU_AZAR);
-        positions.add(Position.CALABRESA);
-        positions.add(Position.SORTE_OU_AZAR);
-        positions.add(Position.PRESUNTO);
-        positions.add(Position.SORTE_OU_AZAR);
-        positions.add(Position.QUEIJO);
-        positions.add(Position.AZEITONA);
-        positions.add(Position.SORTE_OU_AZAR);
-        positions.add(Position.BROCOLIS);
-        positions.add(Position.AZEITONA);
-        positions.add(Position.SORTE_OU_AZAR);
-    }
-
-    public enum Position {
-        PERDE_TUDO,
-        CEBOLA,
-        SORTE_OU_AZAR,
-        CALABRESA,
-        QUEIJO,
-        TOMATE,
-        OVOS,
-        AZEITONA,
-        MILHO,
-        PRESUNTO,
-        BROCOLIS,
+        positions.add(new Position(Position.Type.PERDE_TUDO));
+        positions.add(new Position(Position.Type.INGREDIENT, Pizza.Ingredient.CEBOLA));
+        positions.add(new Position(Position.Type.SORTE_OU_AZAR));
+        positions.add(new Position(Position.Type.INGREDIENT, Pizza.Ingredient.CALABRESA));
+        positions.add(new Position(Position.Type.INGREDIENT, Pizza.Ingredient.QUEIJO));
+        positions.add(new Position(Position.Type.SORTE_OU_AZAR));
+        positions.add(new Position(Position.Type.SORTE_OU_AZAR));
+        positions.add(new Position(Position.Type.INGREDIENT, Pizza.Ingredient.TOMATE));
+        positions.add(new Position(Position.Type.INGREDIENT, Pizza.Ingredient.OVOS));
+        positions.add(new Position(Position.Type.INGREDIENT, Pizza.Ingredient.AZEITONA));
+        positions.add(new Position(Position.Type.SORTE_OU_AZAR));
+        positions.add(new Position(Position.Type.SORTE_OU_AZAR));
+        positions.add(new Position(Position.Type.INGREDIENT, Pizza.Ingredient.MILHO));
+        positions.add(new Position(Position.Type.INGREDIENT, Pizza.Ingredient.AZEITONA));
+        positions.add(new Position(Position.Type.SORTE_OU_AZAR));
+        positions.add(new Position(Position.Type.INGREDIENT, Pizza.Ingredient.PRESUNTO));
+        positions.add(new Position(Position.Type.INGREDIENT, Pizza.Ingredient.TOMATE));
+        positions.add(new Position(Position.Type.INGREDIENT, Pizza.Ingredient.MILHO));
+        positions.add(new Position(Position.Type.SORTE_OU_AZAR));
+        positions.add(new Position(Position.Type.SORTE_OU_AZAR));
+        positions.add(new Position(Position.Type.INGREDIENT, Pizza.Ingredient.BROCOLIS));
+        positions.add(new Position(Position.Type.SORTE_OU_AZAR));
+        positions.add(new Position(Position.Type.INGREDIENT, Pizza.Ingredient.OVOS));
+        positions.add(new Position(Position.Type.INGREDIENT, Pizza.Ingredient.CEBOLA));
+        positions.add(new Position(Position.Type.SORTE_OU_AZAR));
+        positions.add(new Position(Position.Type.INGREDIENT, Pizza.Ingredient.CALABRESA));
+        positions.add(new Position(Position.Type.SORTE_OU_AZAR));
+        positions.add(new Position(Position.Type.INGREDIENT, Pizza.Ingredient.PRESUNTO));
+        positions.add(new Position(Position.Type.SORTE_OU_AZAR));
+        positions.add(new Position(Position.Type.INGREDIENT, Pizza.Ingredient.QUEIJO));
+        positions.add(new Position(Position.Type.INGREDIENT, Pizza.Ingredient.AZEITONA));
+        positions.add(new Position(Position.Type.SORTE_OU_AZAR));
+        positions.add(new Position(Position.Type.INGREDIENT, Pizza.Ingredient.BROCOLIS));
+        positions.add(new Position(Position.Type.INGREDIENT, Pizza.Ingredient.AZEITONA));
+        positions.add(new Position(Position.Type.SORTE_OU_AZAR));
     }
 }
+

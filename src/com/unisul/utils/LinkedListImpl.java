@@ -5,6 +5,13 @@ public class LinkedListImpl<T> implements LinkedList<T> {
 
     private LinkedListImpl.Iterator iterator;
 
+    public LinkedListImpl() {}
+
+    public LinkedListImpl(T[] initialValue) {
+        for (int i = 0; i < initialValue.length; i++)
+            this.add(initialValue[i]);
+    }
+
     public Iterator iterator() {
         if (iterator != null) {
             return iterator;
@@ -13,7 +20,6 @@ public class LinkedListImpl<T> implements LinkedList<T> {
             return iterator;
         }
     }
-
 
     @Override
     public void add(T t) {

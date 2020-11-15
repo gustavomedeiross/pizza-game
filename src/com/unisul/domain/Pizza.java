@@ -1,15 +1,16 @@
 package com.unisul.domain;
 
-import com.unisul.utils.LinkedList;
 import com.unisul.utils.LinkedListImpl;
 
 public class Pizza {
-    private LinkedList<Ingredient> ingredients;
+    private Flavor flavor;
+    public LinkedListImpl<Ingredient> ingredients;
 
-    public Pizza(Type type) {
+    public Pizza(Flavor flavor) {
+        this.flavor = flavor;
         ingredients = new LinkedListImpl<>();
 
-        switch(type) {
+        switch(flavor) {
             case CALABRESA: {
                 ingredients.add(Ingredient.CALABRESA);
                 ingredients.add(Ingredient.AZEITONA);
@@ -23,8 +24,6 @@ public class Pizza {
                 break;
             }
             case PORTUGUESA: {
-                ingredients.add(Ingredient.CALABRESA);
-                ingredients.add(Ingredient.AZEITONA);
                 ingredients.add(Ingredient.QUEIJO);
                 ingredients.add(Ingredient.TOMATE);
                 ingredients.add(Ingredient.OVOS);
@@ -33,7 +32,11 @@ public class Pizza {
         }
     }
 
-    public enum Type {
+    public Flavor getFlavor() {
+        return flavor;
+    }
+
+    public enum Flavor {
         CALABRESA,
         PORTUGUESA,
         MUCARELA
