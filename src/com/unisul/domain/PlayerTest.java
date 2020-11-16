@@ -33,7 +33,7 @@ class PlayerTest {
     }
 
     private void addIngredientNotNeededOnAnotherPizza() {
-        assertTrue(anotherPlayer.pizza.addIngredient(Pizza.Ingredient.TOMATE));
+        assertTrue(anotherPlayer.pizza.addIngredient(Pizza.Ingredient.MILHO));
     }
 
     private void addNeededIngredientOnAnotherPlayer2Pizza() {

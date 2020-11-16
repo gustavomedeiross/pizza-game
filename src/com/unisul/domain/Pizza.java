@@ -111,6 +111,7 @@ public class Pizza {
                     Ingredient.QUEIJO,
                     Ingredient.CEBOLA,
                     Ingredient.AZEITONA,
+                    Ingredient.TOMATE,
             };
         } else if (flavor == Flavor.MUCARELA) {
             return new Ingredient[] {
@@ -118,13 +119,31 @@ public class Pizza {
                     Ingredient.AZEITONA,
                     Ingredient.TOMATE,
                     Ingredient.MILHO,
+                    Ingredient.OVOS,
             };
         } else if (flavor == Flavor.PORTUGUESA) {
             return  new Ingredient[] {
                     Ingredient.CALABRESA,
                     Ingredient.QUEIJO,
                     Ingredient.CEBOLA,
-                    Ingredient.OVOS
+                    Ingredient.OVOS,
+                    Ingredient.AZEITONA,
+            };
+        } else if (flavor == Flavor.LOMBINHO) {
+            return  new Ingredient[] {
+                    Ingredient.QUEIJO,
+                    Ingredient.AZEITONA,
+                    Ingredient.TOMATE,
+                    Ingredient.PRESUNTO,
+                    Ingredient.BROCOLIS,
+            };
+        } else if (flavor == Flavor.BAIANA) {
+            return  new Ingredient[] {
+                    Ingredient.CALABRESA,
+                    Ingredient.QUEIJO,
+                    Ingredient.CEBOLA,
+                    Ingredient.OVOS,
+                    Ingredient.MILHO,
             };
         } else {
             throw new RuntimeException();
@@ -138,7 +157,9 @@ public class Pizza {
     public enum Flavor {
         CALABRESA,
         PORTUGUESA,
-        MUCARELA
+        MUCARELA,
+        LOMBINHO,
+        BAIANA,
     }
 
     public enum Ingredient {
