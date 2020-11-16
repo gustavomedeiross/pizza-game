@@ -11,49 +11,59 @@ public class Player {
         this.pizza = pizza;
     }
 
-    public void stealIngredientFromAnotherPlayer(LinkedList<Player> players) {
-        System.out.println(this.pizza.getFlavor() + " vai roubar algum ingrediente de alguem!");
-        boolean foundNeededIngredientOnAnotherPlayer = false;
+    public boolean stealIngredientFromAnotherPlayer(LinkedList<Player> players) {
+        boolean stealed = tryToStealIngredientFromAnotherPlayer(players);
+        if (stealed) {
+            return true;
+        } else {
+            return thenJustRemoveAnyIngredient(players);
+        }
+    }
 
-        // try to find any needed ingredient on another player
-        // iterate through all other players
+    private boolean tryToStealIngredientFromAnotherPlayer(LinkedList<Player> players) {
+        for (int i = 0; i < players.size(); i++) {
+            Player player = players.get(i);
+            if (playerIsNotMe(player)) {
+                if (playerHasAnyIngredientThatINeed(player)) {
+                    stealIngredient(player);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean playerIsNotMe(Player player) {
+        return player != this;
+    }
+
+    private boolean playerHasAnyIngredientThatINeed(Player player) {
+        for (int i = 0; i < player.pizza.ingredientsFound().size(); i++) {
+            Pizza.Ingredient ingredient = player.pizza.ingredientsFound().get(i);
+            if (this.pizza.needsIngredient(ingredient)) return true;
+        }
+        return false;
+    }
+
+    private void stealIngredient(Player player) {
+        for (int j = 0; j < player.pizza.ingredientsFound().size(); j++) {
+            Pizza.Ingredient ingredient = player.pizza.ingredientsFound().get(j);
+            if (this.pizza.needsIngredient(ingredient)) {
+                this.pizza.addIngredient(ingredient);
+                player.pizza.removeIngredient(ingredient);
+                return;
+            }
+        }
+    }
+
+    private boolean thenJustRemoveAnyIngredient(LinkedList<Player> players) {
         for (int i = 0; i < players.size(); i++) {
             Player p = players.get(i);
-            // (checks if player is not the current round player)
-            if (p != this) {
-                // checks if the other player has any ingredient that i need
-                for (int j = 0; j < p.pizza.ingredientsFound().size(); j++) {
-                    Pizza.Ingredient ing = p.pizza.ingredientsFound().get(j);
-                    if (this.pizza.needsIngredient(ing)) {
-                        foundNeededIngredientOnAnotherPlayer = true;
-                        System.out.print(this.pizza.getFlavor() + " roubou a pizza de  ");
-                        System.out.print(p.pizza.getFlavor());
-                        System.out.println(" => Ingrediente: " + ing);
-                        this.pizza.addIngredient(ing);
-                        p.pizza.removeIngredient(ing);
-                        break;
-                    } else {
-                        System.out.println(this.pizza.getFlavor() + " nao precisa de" + ing);
-                    }
-                }
-                // TODO IMPORTANT break out of second loop
-                // outer for break
-                if (foundNeededIngredientOnAnotherPlayer) break;
+            if (p != this && p.pizza.foundAnyIngredient()) {
+                p.pizza.removeIngredient();
+                return true;
             }
         }
-
-        // if didnt found any needed ingredient on another player,
-        // just remove any ingredient that any other player might have found
-        if (! foundNeededIngredientOnAnotherPlayer) {
-            System.out.println(this.pizza.getFlavor() + " nao encontrou nenhum ingrediente em outro jogador");
-            for (int i = 0; i < players.size(); i++) {
-                Player p = players.get(i);
-                if (p != this && p.pizza.foundAnyIngredient()) {
-                    System.out.println("entao removi algum ingrediente da " + p.pizza.getFlavor());
-                    p.pizza.removeIngredient();
-                    break;
-                }
-            }
-        }
+        return false;
     }
 }
