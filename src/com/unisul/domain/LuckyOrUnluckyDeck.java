@@ -32,7 +32,7 @@ public class LuckyOrUnluckyDeck {
     enum Type {
         LOSE_AN_INGREDIENT,
         GAIN_TWO_INGREDIENTS,
-        STOLE_AN_INGREDIENT_FROM_ANOTHER_PLAYER,
+        STEAL_INGREDIENT_FROM_ANOTHER_PLAYER,
         BURN_THE_PIZZA
     }
 }

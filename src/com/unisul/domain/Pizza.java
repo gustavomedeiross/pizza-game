@@ -105,13 +105,15 @@ public class Pizza {
             return new Ingredient[] {
                     Ingredient.CALABRESA,
                     Ingredient.QUEIJO,
-                    Ingredient.CEBOLA
+                    Ingredient.CEBOLA,
+                    Ingredient.AZEITONA,
             };
         } else if (flavor == Flavor.MUCARELA) {
             return new Ingredient[] {
                     Ingredient.QUEIJO,
                     Ingredient.AZEITONA,
-                    Ingredient.TOMATE
+                    Ingredient.TOMATE,
+                    Ingredient.MILHO,
             };
         } else if (flavor == Flavor.PORTUGUESA) {
             return  new Ingredient[] {
