@@ -81,6 +81,14 @@ class CircularLinkedListTest {
     }
 
     @Test
+    public void testHas() {
+        sut.add(5);
+        sut.add(2);
+        assertTrue(sut.has(5));
+        assertFalse(sut.has(3));
+    }
+
+    @Test
     public void testPutInTheMiddle() {
         sut.add(5);
         sut.add(3);

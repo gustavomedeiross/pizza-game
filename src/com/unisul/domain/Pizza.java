@@ -1,19 +1,41 @@
 package com.unisul.domain;
 
+import com.unisul.utils.LinkedList;
 import com.unisul.utils.LinkedListImpl;
 
 public class Pizza {
     private Flavor flavor;
-    public LinkedListImpl<Ingredient> ingredients;
+    private LinkedListImpl<Ingredient> ingredients;
 
     public Pizza(Flavor flavor) {
         this.flavor = flavor;
         this.ingredients = new LinkedListImpl<>(requiredIngredients());
     }
 
+    public boolean hasAllIngredients() {
+        return ingredients.isEmpty();
+    }
+
     public boolean needsIngredient(Ingredient ingredient) {
-        int pizzaIngredientIndex = this.ingredients.indexOf(ingredient);
-        return pizzaIngredientIndex >= 0;
+        return this.ingredients.has(ingredient);
+    }
+
+    public boolean foundAnyIngredient() {
+        Ingredient[] ingredients = requiredIngredients();
+        return ingredients.length > this.ingredients.size();
+    }
+
+    public LinkedList<Ingredient> ingredientsFound() {
+        Ingredient[] ingredients = requiredIngredients();
+
+        LinkedList<Ingredient> found = new LinkedListImpl<>();
+
+        for (int i = 0; i < ingredients.length; i++) {
+            if (! this.ingredients.has(ingredients[i]))
+                found.add(ingredients[i]);
+        }
+
+        return found;
     }
 
     public boolean addIngredient() {
@@ -38,6 +60,25 @@ public class Pizza {
         }
     }
 
+    public boolean removeIngredient(Ingredient ingredient) {
+        Ingredient[] ingredients = requiredIngredients();
+        boolean ingredientIsRequired = false;
+
+        for (int i = 0; i < ingredients.length; i++) {
+            if (ingredients[i] == ingredient) {
+                ingredientIsRequired = true;
+                break;
+            }
+        }
+
+        if (ingredientIsRequired && ! needsIngredient(ingredient)) {
+            this.ingredients.add(ingredient);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public boolean removeIngredient() {
         Ingredient[] ingredients = requiredIngredients();
 
@@ -48,6 +89,14 @@ public class Pizza {
             }
         }
         return false;
+    }
+
+    public void removeAllIngredients() {
+        Ingredient[] ingredients = requiredIngredients();
+
+        for (int i = 0; i < ingredients.length; i++)
+            if (! needsIngredient(ingredients[i]))
+                this.ingredients.add(ingredients[i]);
     }
 
     // TODO usar linked list ao inves de um array

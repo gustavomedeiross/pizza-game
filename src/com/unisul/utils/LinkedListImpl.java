@@ -107,6 +107,11 @@ public class LinkedListImpl<T> implements LinkedList<T> {
     }
 
     @Override
+    public boolean has(T t) {
+        return indexOf(t) != -1;
+    }
+
+    @Override
     public int size() {
         return size(head);
     }

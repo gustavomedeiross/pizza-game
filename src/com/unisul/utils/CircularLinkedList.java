@@ -155,6 +155,11 @@ public class CircularLinkedList<T> implements LinkedList<T> {
         return -1;
     }
 
+    @Override
+    public boolean has(T t) {
+        return indexOf(t) != -1;
+    }
+
     private boolean isNotEmpty()  {
         return ! isEmpty();
     }
