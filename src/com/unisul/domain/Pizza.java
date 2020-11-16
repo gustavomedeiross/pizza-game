@@ -16,6 +16,10 @@ public class Pizza {
         return ingredients.isEmpty();
     }
 
+    public boolean stillNeedIngredients() {
+        return !hasAllIngredients();
+    }
+
     public boolean needsIngredient(Ingredient ingredient) {
         return this.ingredients.has(ingredient);
     }

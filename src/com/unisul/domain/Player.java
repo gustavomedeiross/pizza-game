@@ -51,6 +51,7 @@ public class Player {
             if (this.pizza.needsIngredient(ingredient)) {
                 this.pizza.addIngredient(ingredient);
                 player.pizza.removeIngredient(ingredient);
+                System.out.println("Roubou o ingrediente " + ingredient + " do " + player);
                 return;
             }
         }
@@ -61,9 +62,19 @@ public class Player {
             Player p = players.get(i);
             if (p != this && p.pizza.foundAnyIngredient()) {
                 p.pizza.removeIngredient();
+                System.out.println("Removeu um ingrediente do " + p);
                 return true;
             }
         }
         return false;
+    }
+
+    @Override
+    public String toString() {
+        String message = "Jogador da pizza de " + this.pizza.getFlavor() + " [";
+        for (int i = 0; i < this.pizza.ingredientsFound().size() - 1; i++) {
+            message += this.pizza.ingredientsFound().get(i) + ", ";
+        }
+        return message + this.pizza.ingredientsFound().last() + "]";
     }
 }

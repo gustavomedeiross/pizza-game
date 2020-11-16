@@ -6,7 +6,7 @@ import com.unisul.utils.StackImpl;
 import java.util.Random;
 
 public class LuckyOrUnluckyDeck {
-    private Stack<Type> cards;
+    private Stack<Card> cards;
 
     LuckyOrUnluckyDeck() {
         cards = new StackImpl<>();
@@ -18,18 +18,18 @@ public class LuckyOrUnluckyDeck {
             cards.push(pickARandomType());
     }
 
-    private Type pickARandomType() {
-        int pick = new Random().nextInt(Type.values().length);
-        return Type.values()[pick];
+    private Card pickARandomType() {
+        int pick = new Random().nextInt(Card.values().length);
+        return Card.values()[pick];
     }
 
-    public Type getCard() {
+    public Card getCard() {
         if (cards.size() == 0)
             shuffle();
         return cards.pop();
     }
 
-    enum Type {
+    enum Card {
         LOSE_AN_INGREDIENT,
         GAIN_TWO_INGREDIENTS,
         STEAL_INGREDIENT_FROM_ANOTHER_PLAYER,

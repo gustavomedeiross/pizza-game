@@ -10,6 +10,7 @@ public class Game {
         new Game(list, new DiceImpl()).play();
     }
 
+    public Player winner;
     private CircularLinkedList<Player> players;
     private Player currentPlayer;
     private LuckyOrUnluckyDeck deck;
@@ -19,104 +20,91 @@ public class Game {
         this.players = players;
         this.dice = dice;
         this.deck = new LuckyOrUnluckyDeck();
+        setUpBoard();
+    }
 
+    private void setUpBoard() {
         Board board = new Board();
-
         for (int i = 0; i < players.size(); i++) {
             players.get(i).position = board.positions().newIterator();
         }
     }
 
     public void play() {
-        while (true) {
-            currentPlayer = players.iterator().next();
+        currentPlayer = players.iterator().previous();
+        
+        while (currentPlayer.pizza.stillNeedIngredients()) {
+            selectNextPlayer();
+            System.out.println("Rodada do " + currentPlayer);
+            rollDiceAndMovePlayer();
+            resolvePosition();
+            System.out.println("===");
+        }
 
-            int diceResult = dice.roll();
-            System.out.println("Dice result: " + diceResult);
+        winner = currentPlayer;
+        System.out.println(winner + " ganhou!");
+    }
 
-            // moves currentPlayer position n times
-            // n = dice result
-            for (int i = 0; i < diceResult; i++) {
-                currentPlayer.position.next();
-            }
+    private void selectNextPlayer() {
+        currentPlayer = players.iterator().next();
+    }
 
-            Position position = currentPlayer.position.current();
-            switch (position.getType()) {
-                case INGREDIENT: {
-                    handleIngredientPosition(position);
-                    break;
-                }
-
-                case PERDE_TUDO: {
-                    handleLoseAllIngredients();
-                    break;
-                }
-
-               case SORTE_OU_AZAR: {
-                   handleLuckyOrUnluckyPosition();
-                   break;
-                }
-            }
-
-            // checks if the current player finished the pizza
-            if (currentPlayer.pizza.hasAllIngredients()) {
-                System.out.println(currentPlayer.position.current());
-                break;
-            }
+    private void rollDiceAndMovePlayer() {
+        int diceResult = dice.roll();
+        System.out.println("Dado: " + diceResult);
+        for (int i = 0; i < diceResult; i++) {
+            currentPlayer.position.next();
         }
     }
 
-    private void handleIngredientPosition(Position position) {
-        Pizza.Ingredient ingredient = position.getIngredient();
-
-        // checks if the currentPlayer already has the
-        // ingredient he has found
-        // if the doesn't have (and needs), then add that
-        // ingredient to the pizza
-        if (currentPlayer.pizza.needsIngredient(ingredient)) {
-            System.out.print("Pizza do jogador: " + currentPlayer.pizza.getFlavor() + " -> ");
-            System.out.println("Ingrediente encontrado:" + position.getIngredient());
-            currentPlayer.pizza.addIngredient(ingredient);
+    private void resolvePosition() {
+        Position position = currentPlayer.position.current();
+        System.out.println("Posição: " + position.getType());
+        if (position.getType() == Position.Type.INGREDIENT) {
+            tryToAddIngredient(position.getIngredient());
+        } else if(position.getType() == Position.Type.LOSE_ALL_INGREDIENTS) {
+            removeAllIngredientsOfCurrentPlayer();
+        } else if (position.getType() == Position.Type.LUCKY_OR_UNLUCKY) {
+            resolveLuckyOrUnluckyPosition();
         } else {
-            System.out.print("Pizza do jogador: " + currentPlayer.pizza.getFlavor() + " -> ");
-            System.out.println("Ingrediente encontrado nao bate:" + position.getIngredient());
+            throw new RuntimeException("Invalid position: " + position.getType());
         }
-
     }
 
-    private void handleLoseAllIngredients() {
-        System.out.print("Pizza do jogador: " + currentPlayer.pizza.getFlavor() + " -> ");
-        System.out.println("perde tudo :(");
+    private void tryToAddIngredient(Pizza.Ingredient ingredient) {
+        if (currentPlayer.pizza.addIngredient(ingredient)) {
+            System.out.println("Ingrediente " + ingredient + " adicionado!");
+        } else {
+            System.out.println("O ingredienete " + ingredient + " não é necessário");
+        }
+    }
+
+    private void removeAllIngredientsOfCurrentPlayer() {
         currentPlayer.pizza.removeAllIngredients();
+        System.out.println("Todos os ingredientes foram removidos :(");
     }
 
-    private void handleLuckyOrUnluckyPosition() {
-        System.out.print("Pizza do jogador: " + currentPlayer.pizza.getFlavor() + " -> ");
-        System.out.println("sorte ou azar");
-        // get card and checks what to do with it
+    private void resolveLuckyOrUnluckyPosition() {
         switch (this.deck.getCard()) {
             case LOSE_AN_INGREDIENT: {
-                System.out.println(currentPlayer.pizza.getFlavor() + " perdeu ingrediente!");
                 currentPlayer.pizza.removeIngredient();
-                break;
+                System.out.println("Perdeu um ingrediente :(");
+                return;
             }
-
             case BURN_THE_PIZZA: {
-                System.out.println(currentPlayer.pizza.getFlavor() + " queimou a pizza!");
                 currentPlayer.pizza.removeAllIngredients();
-                break;
+                System.out.println("Perdeu todos os ingredientes :(");
+                return;
             }
-
             case GAIN_TWO_INGREDIENTS: {
-                System.out.println(currentPlayer.pizza.getFlavor() + " ganhou dois ingredientes!");
                 currentPlayer.pizza.addIngredient();
                 currentPlayer.pizza.addIngredient();
-                break;
+                System.out.println("Ganhou dois ingredientes!");
+                return;
             }
-
             case STEAL_INGREDIENT_FROM_ANOTHER_PLAYER: {
                 currentPlayer.stealIngredientFromAnotherPlayer(players);
-                break;
+                return;
             }
         }
     }

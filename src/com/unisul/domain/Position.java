@@ -28,7 +28,7 @@ public class Position {
 
     public enum Type {
         INGREDIENT,
-        SORTE_OU_AZAR,
-        PERDE_TUDO,
+        LUCKY_OR_UNLUCKY,
+        LOSE_ALL_INGREDIENTS,
     }
 }
